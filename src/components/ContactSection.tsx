@@ -29,7 +29,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding bg-card">
+    <section id="contact" className="section-padding">
       <div className="max-w-xl mx-auto">
         <motion.div variants={fade} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <p className="text-sm font-medium tracking-widest uppercase text-primary mb-2 text-center">Get In Touch</p>
@@ -56,7 +56,7 @@ const ContactSection = () => {
                   rows={4}
                   value={form[field]}
                   onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                  className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                  className="w-full rounded-lg border border-input bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                   placeholder="Your message..."
                 />
               ) : (
@@ -64,7 +64,7 @@ const ContactSection = () => {
                   type={field === "email" ? "email" : "text"}
                   value={form[field]}
                   onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                  className="w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="w-full rounded-lg border border-input bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   placeholder={field === "email" ? "you@example.com" : "Your name"}
                 />
               )}

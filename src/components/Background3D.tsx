@@ -1,87 +1,112 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial } from "@react-three/drei";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 
-const FloatingSphere = ({ position, size, speed, distort, color }: {
-  position: [number, number, number];
-  size: number;
-  speed: number;
-  distort: number;
-  color: string;
-}) => {
+/* ── Iridescent Torus ── */
+const GlossyTorus = () => {
   const mesh = useRef<THREE.Mesh>(null);
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+    }),
+    []
+  );
 
   useFrame((state) => {
     if (!mesh.current) return;
-    mesh.current.rotation.x = state.clock.elapsedTime * speed * 0.3;
-    mesh.current.rotation.y = state.clock.elapsedTime * speed * 0.2;
+    const t = state.clock.elapsedTime;
+    mesh.current.rotation.x = t * 0.15;
+    mesh.current.rotation.y = t * 0.25;
+    mesh.current.rotation.z = t * 0.1;
+    uniforms.uTime.value = t;
   });
 
+  const vertexShader = `
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+    varying vec2 vUv;
+    void main() {
+      vNormal = normalize(normalMatrix * normal);
+      vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+
+  const fragmentShader = `
+    uniform float uTime;
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+    varying vec2 vUv;
+
+    void main() {
+      vec3 viewDir = normalize(-vPosition);
+      float fresnel = pow(1.0 - abs(dot(viewDir, vNormal)), 3.0);
+
+      // iridescent color cycling
+      float angle = atan(vNormal.y, vNormal.x) + uTime * 0.3;
+      vec3 col1 = vec3(0.2, 0.5, 1.0);   // blue
+      vec3 col2 = vec3(0.9, 0.3, 0.6);   // pink
+      vec3 col3 = vec3(1.0, 0.6, 0.2);   // orange
+      vec3 col4 = vec3(0.3, 0.8, 0.9);   // cyan
+
+      float t = sin(angle * 1.5 + vUv.x * 3.14) * 0.5 + 0.5;
+      float t2 = sin(angle * 2.0 + vUv.y * 2.0 + uTime * 0.2) * 0.5 + 0.5;
+
+      vec3 baseColor = mix(mix(col1, col2, t), mix(col3, col4, t2), fresnel);
+
+      // glossy specular highlights
+      vec3 lightDir = normalize(vec3(1.0, 2.0, 3.0));
+      vec3 halfDir = normalize(lightDir + viewDir);
+      float spec = pow(max(dot(vNormal, halfDir), 0.0), 64.0);
+      
+      vec3 lightDir2 = normalize(vec3(-2.0, -1.0, 2.0));
+      vec3 halfDir2 = normalize(lightDir2 + viewDir);
+      float spec2 = pow(max(dot(vNormal, halfDir2), 0.0), 32.0);
+
+      float ambient = 0.15;
+      float diffuse = max(dot(vNormal, lightDir), 0.0) * 0.4;
+      
+      vec3 finalColor = baseColor * (ambient + diffuse) + vec3(1.0) * spec * 0.8 + vec3(0.7, 0.8, 1.0) * spec2 * 0.4;
+      finalColor += baseColor * fresnel * 0.6;
+
+      gl_FragColor = vec4(finalColor, 0.92);
+    }
+  `;
+
   return (
-    <Float speed={speed} rotationIntensity={0.4} floatIntensity={1.5}>
-      <mesh ref={mesh} position={position}>
-        <icosahedronGeometry args={[size, 1]} />
-        <MeshDistortMaterial
-          color={color}
-          transparent
-          opacity={0.15}
-          distort={distort}
-          speed={2}
-          roughness={0.5}
-        />
-      </mesh>
-    </Float>
+    <mesh ref={mesh}>
+      <torusGeometry args={[2.2, 0.85, 128, 256]} />
+      <shaderMaterial
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        transparent
+        side={THREE.DoubleSide}
+      />
+    </mesh>
   );
 };
 
-const FloatingRing = ({ position, size, speed, color }: {
-  position: [number, number, number];
-  size: number;
-  speed: number;
-  color: string;
-}) => {
-  const mesh = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!mesh.current) return;
-    mesh.current.rotation.x = state.clock.elapsedTime * speed * 0.5;
-    mesh.current.rotation.z = state.clock.elapsedTime * speed * 0.3;
-  });
-
-  return (
-    <Float speed={speed * 0.8} rotationIntensity={0.6} floatIntensity={1}>
-      <mesh ref={mesh} position={position}>
-        <torusGeometry args={[size, size * 0.15, 16, 32]} />
-        <meshStandardMaterial
-          color={color}
-          transparent
-          opacity={0.1}
-          wireframe
-        />
-      </mesh>
-    </Float>
-  );
-};
-
+/* ── Ambient Particles ── */
 const Particles = () => {
   const points = useRef<THREE.Points>(null);
-  const count = 120;
+  const count = 200;
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      pos[i * 3] = (Math.random() - 0.5) * 30;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 30;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 15;
     }
     return pos;
   }, []);
 
   useFrame((state) => {
     if (!points.current) return;
-    points.current.rotation.y = state.clock.elapsedTime * 0.02;
-    points.current.rotation.x = state.clock.elapsedTime * 0.01;
+    points.current.rotation.y = state.clock.elapsedTime * 0.015;
   });
 
   return (
@@ -94,37 +119,27 @@ const Particles = () => {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial size={0.03} color="#4a8eff" transparent opacity={0.4} sizeAttenuation />
+      <pointsMaterial
+        size={0.04}
+        color="#6c8eff"
+        transparent
+        opacity={0.35}
+        sizeAttenuation
+      />
     </points>
   );
 };
 
-const Scene = () => (
-  <>
-    <ambientLight intensity={0.5} />
-    <directionalLight position={[5, 5, 5]} intensity={0.3} />
-
-    <FloatingSphere position={[-4, 2, -3]} size={1.2} speed={1.2} distort={0.4} color="#4a8eff" />
-    <FloatingSphere position={[4, -1, -4]} size={0.9} speed={0.8} distort={0.3} color="#6c63ff" />
-    <FloatingSphere position={[0, 3, -5]} size={1.5} speed={0.6} distort={0.5} color="#4a8eff" />
-    <FloatingSphere position={[-3, -3, -2]} size={0.7} speed={1} distort={0.35} color="#8b7bff" />
-
-    <FloatingRing position={[3, 2, -3]} size={1} speed={0.7} color="#4a8eff" />
-    <FloatingRing position={[-2, -1, -4]} size={1.3} speed={0.5} color="#6c63ff" />
-
-    <Particles />
-  </>
-);
-
 const Background3D = () => (
   <div className="fixed inset-0 -z-10 pointer-events-none">
     <Canvas
-      camera={{ position: [0, 0, 6], fov: 60 }}
+      camera={{ position: [0, 0, 7], fov: 50 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
     >
-      <Scene />
+      <GlossyTorus />
+      <Particles />
     </Canvas>
   </div>
 );
