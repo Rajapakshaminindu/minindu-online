@@ -4,7 +4,7 @@ import { BarChart3, ExternalLink } from "lucide-react";
 const fade = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } };
 
 const ProjectsSection = () => (
-  <section id="projects" className="section-padding bg-card">
+  <section id="projects" className="section-padding">
     <div className="max-w-4xl mx-auto">
       <motion.div variants={fade} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.5 }}>
         <p className="text-sm font-medium tracking-widest uppercase text-primary mb-2 text-center">Portfolio</p>
@@ -14,14 +14,13 @@ const ProjectsSection = () => (
       </motion.div>
 
       <motion.div
-        className="bg-background rounded-2xl overflow-hidden card-elevated"
+        className="rounded-2xl overflow-hidden card-elevated bg-card"
         variants={fade}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        {/* Decorative header */}
         <div className="h-48 flex items-center justify-center" style={{ background: "var(--hero-gradient)" }}>
           <BarChart3 size={64} className="text-primary-foreground opacity-80" />
         </div>

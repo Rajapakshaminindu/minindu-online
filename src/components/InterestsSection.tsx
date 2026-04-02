@@ -23,7 +23,7 @@ const InterestsSection = () => (
         {items.map((item, i) => (
           <motion.div
             key={item.title}
-            className="bg-card rounded-xl p-6 card-elevated text-center"
+            className="rounded-xl p-6 card-elevated bg-card text-center"
             variants={fade}
             initial="hidden"
             whileInView="visible"

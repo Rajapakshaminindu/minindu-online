@@ -4,7 +4,7 @@ import { GraduationCap, Briefcase, Target } from "lucide-react";
 const fade = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } };
 
 const AboutSection = () => (
-  <section id="about" className="section-padding bg-card">
+  <section id="about" className="section-padding">
     <div className="max-w-4xl mx-auto">
       <motion.div variants={fade} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.5 }}>
         <p className="text-sm font-medium tracking-widest uppercase text-primary mb-2 text-center">About Me</p>
@@ -33,7 +33,7 @@ const AboutSection = () => (
         ].map((item, i) => (
           <motion.div
             key={item.title}
-            className="bg-background rounded-xl p-6 card-elevated"
+            className="rounded-xl p-6 card-elevated bg-card"
             variants={fade}
             initial="hidden"
             whileInView="visible"

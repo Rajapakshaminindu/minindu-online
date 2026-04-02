@@ -7,9 +7,8 @@ const HeroSection = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center section-padding pt-32">
+    <section id="home" className="min-h-screen flex items-center justify-center section-padding pt-32 relative">
       <div className="max-w-6xl mx-auto w-full flex flex-col-reverse md:flex-row items-center gap-12 md:gap-16">
-        {/* Text */}
         <motion.div
           className="flex-1 text-center md:text-left"
           initial={{ opacity: 0, y: 30 }}
@@ -38,14 +37,13 @@ const HeroSection = () => {
             </button>
             <button
               onClick={() => scrollTo("contact")}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-card text-foreground font-medium text-sm hover:bg-secondary transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-card/50 text-foreground font-medium text-sm hover:bg-secondary transition-colors backdrop-blur-sm"
             >
               Contact Me <Mail size={16} />
             </button>
           </div>
         </motion.div>
 
-        {/* Image */}
         <motion.div
           className="flex-shrink-0"
           initial={{ opacity: 0, scale: 0.9 }}
