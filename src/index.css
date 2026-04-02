@@ -6,23 +6,23 @@
 
 @layer base {
   :root {
-    --background: 222 47% 6%;
+    --background: 222 50% 5%;
     --foreground: 220 20% 92%;
 
-    --card: 222 40% 10%;
+    --card: 222 45% 8%;
     --card-foreground: 220 20% 92%;
 
-    --popover: 222 40% 10%;
+    --popover: 222 45% 8%;
     --popover-foreground: 220 20% 92%;
 
     --primary: 217 80% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 30% 16%;
-    --secondary-foreground: 220 20% 85%;
+    --secondary: 222 30% 14%;
+    --secondary-foreground: 220 20% 80%;
 
-    --muted: 222 25% 18%;
-    --muted-foreground: 220 15% 55%;
+    --muted: 222 25% 16%;
+    --muted-foreground: 220 15% 50%;
 
     --accent: 260 60% 62%;
     --accent-foreground: 0 0% 100%;
@@ -30,23 +30,23 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 222 20% 18%;
-    --input: 222 20% 18%;
+    --border: 222 20% 14%;
+    --input: 222 20% 14%;
     --ring: 217 80% 60%;
 
     --radius: 0.75rem;
 
     --hero-gradient: linear-gradient(135deg, hsl(217 80% 60%) 0%, hsl(260 60% 62%) 50%, hsl(330 70% 55%) 100%);
-    --card-shadow: 0 2px 8px 0 hsl(222 47% 4% / 0.4), 0 4px 20px -2px hsl(222 47% 4% / 0.3);
-    --card-shadow-hover: 0 4px 16px 0 hsl(217 80% 60% / 0.15), 0 8px 40px -4px hsl(222 47% 4% / 0.4);
+    --card-shadow: 0 2px 8px 0 hsl(222 50% 3% / 0.5), 0 4px 20px -2px hsl(222 50% 3% / 0.4);
+    --card-shadow-hover: 0 4px 16px 0 hsl(217 80% 60% / 0.12), 0 8px 40px -4px hsl(222 50% 3% / 0.5);
 
-    --sidebar-background: 222 40% 8%;
+    --sidebar-background: 222 45% 6%;
     --sidebar-foreground: 220 20% 85%;
     --sidebar-primary: 217 80% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 30% 14%;
+    --sidebar-accent: 222 30% 12%;
     --sidebar-accent-foreground: 220 20% 85%;
-    --sidebar-border: 222 20% 16%;
+    --sidebar-border: 222 20% 14%;
     --sidebar-ring: 217 80% 60%;
   }
 }
@@ -87,8 +87,8 @@
   }
 
   .glass {
-    background: hsl(var(--card) / 0.6);
-    backdrop-filter: blur(20px);
-    border: 1px solid hsl(var(--border) / 0.5);
+    background: hsl(222 50% 5% / 0.7);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid hsl(var(--border) / 0.4);
   }
 }
