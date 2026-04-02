@@ -22,8 +22,8 @@ const ProjectsSection = () => (
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <div className="h-48 flex items-center justify-center" style={{ background: "var(--hero-gradient)" }}>
-          <BarChart3 size={64} className="text-primary-foreground opacity-80" />
+        <div className="h-48 md:h-64 flex items-center justify-center overflow-hidden">
+          <img src={appleGlobalSales} alt="Apple Global Sales Data Analysis" className="w-full h-full object-cover" loading="lazy" width={1024} height={512} />
         </div>
 
         <div className="p-6 md:p-8">
