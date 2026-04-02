@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { BarChart3, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import appleGlobalSales from "@/assets/apple-global-sales-3d.jpg";
 
 const fade = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } };
 
