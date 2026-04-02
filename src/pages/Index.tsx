@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import Background3D from "@/components/Background3D";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
