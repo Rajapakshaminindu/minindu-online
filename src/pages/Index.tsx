@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 
 const Index = () => (
   <>
+    <Background3D />
     <Navbar />
     <HeroSection />
     <AboutSection />
