@@ -15,7 +15,7 @@ const projects = [
       "A beginner-level EDA project using Python in Google Colab. Explored dataset structure, generated statistical summaries, detected missing values, and built visualizations with Matplotlib & Seaborn to extract actionable business insights.",
     tags: ["Python", "Google Colab", "Pandas", "Matplotlib", "Seaborn"],
     status: "completed" as const,
-    link: "#",
+    link: "https://github.com/Rajapakshaminindu/Apple-Global-Sales-Data-Analysis",
   },
   {
     image: titanicMl,
